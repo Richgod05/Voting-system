@@ -109,7 +109,7 @@
                     </form>
                     <div class="login-link mt-2 text-end">
                         Forgot Password?
-                        <a href="#">Recover here</a>
+                        <a href="{{ route('password.resetpassword') }}">Recover here</a>
                     </div>
                 </div>
             </div>
