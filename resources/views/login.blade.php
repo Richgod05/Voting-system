@@ -107,6 +107,10 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
+                    <div class="login-link mt-2 text-end">
+                        Forgot Password?
+                        <a href="#">Recover here</a>
+                    </div>
                 </div>
             </div>
         </div>
