@@ -31,7 +31,11 @@ class VoteController extends Controller
                 'candidate_id' => 'required|exists:candidates,id',
             ]);
 
-            $studentId = \Illuminate\Support\Facades\Auth::user()->id;
+            $user = \Illuminate\Support\Facades\Auth::user();
+            if (!$user || !isset($user->id)) {
+                return redirect()->route('vote.show')->with('error', 'User not authenticated or missing ID.');
+            }
+            $studentId = $user->id;
 
             // Check if the student has already voted
             $existingVote = Vote::where('student_id', $studentId)->first();
@@ -43,7 +47,7 @@ class VoteController extends Controller
             // Record the vote
             Vote::create([
                 'student_id' => $studentId,
-                'candidate_id' => $request->candidate_id,
+                'candidate_id' => $request->input('candidate_id'),
             ]);
 
             return redirect()->route('vote.show')->with('success', 'Your vote has been recorded!');
