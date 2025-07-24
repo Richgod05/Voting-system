@@ -5,8 +5,12 @@
     <title>College Voting System</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!--Bootstrap-->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
         body {
@@ -54,6 +58,14 @@
             text-decoration: underline;
             font-weight: 600;
         }
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 38px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
         @media (min-width: 768px) {
             .card-wrapper {
                 max-width: 600px;
@@ -86,11 +98,12 @@
                         @csrf
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control @error('email') @enderror" id="email" name="email" required autofocus>
+                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required autofocus>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 position-relative">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control @error('password') @enderror" id="password" name="password" required>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
+                            <i class="bi bi-eye eye-icon" data-target="password"></i>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
@@ -98,5 +111,24 @@
             </div>
         </div>
     </div>
+
+    <!-- Eye icon toggle script -->
+    <script>
+        document.querySelectorAll('.eye-icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+                const targetId = icon.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
