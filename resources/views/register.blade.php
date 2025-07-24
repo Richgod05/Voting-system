@@ -5,17 +5,19 @@
     <title>College Voting System - Registration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Nunito font from Google Fonts -->
+    <!-- Nunito Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!--Bootstrap-->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         body {
             background-color: #f4f6f9;
             font-family: 'Nunito', sans-serif;
-            margin: 0;
             padding: 2rem 1rem;
         }
         .card {
@@ -57,6 +59,14 @@
             text-decoration: underline;
             font-weight: 600;
         }
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 38px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
         @media (min-width: 768px) {
             .card-wrapper {
                 max-width: 600px;
@@ -97,16 +107,18 @@
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                    id="email" name="email" value="{{ old('email') }}" required autofocus>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 position-relative">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror"
                                    id="password" name="password" required>
+                            <i class="bi bi-eye eye-icon" data-target="password"></i>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 position-relative">
                             <label for="password_confirmation" class="form-label">Repeat Password</label>
                             <input type="password"
                                    class="form-control @error('password_confirmation') is-invalid @enderror"
                                    id="password_confirmation" name="password_confirmation" required>
+                            <i class="bi bi-eye eye-icon" data-target="password_confirmation"></i>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Register</button>
                     </form>
@@ -119,5 +131,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Password toggle script -->
+    <script>
+        document.querySelectorAll('.eye-icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+                const targetId = icon.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
