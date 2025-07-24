@@ -16,4 +16,7 @@ Route::post('/process_register', [LoginController::class, 'ProcessRegister'])->n
 Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::get('/', [LoginController::class, 'login'])->name('login');
 Route::get('/reset_password', [ResetPasswordController::class, 'resetPassword'])->name('password.resetpassword');
-Route::post('/send_reset', [ResetPasswordController::class, 'sendReset'])->name('password.sendreset');
+Route::post('/send_reset', [ResetPasswordController::class, 'sendResetLink'])->name('password.sendreset');
+Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::get('/reset', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::get('/resetting', [ResetPasswordController::class, 'reset'])->name('password.update');

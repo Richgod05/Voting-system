@@ -13,7 +13,7 @@ class ResetPasswordController extends Controller
     }
 
     // Handle reset link email submission
-    public function sendReset(Request $request)
+    public function sendResetLink(Request $request)
     {
         $request->validate([
             'email' => 'required|email'
@@ -29,9 +29,9 @@ class ResetPasswordController extends Controller
     }
 
     // Show password reset form with token
-    public function showResetForm($token)
+    public function showResetForm(Request $request, $token)
     {
-        return view('password.reset', ['token' => $token]);
+            return view('password.reset', ['token' => $token, 'email' => $request->input('email')]);
     }
 
     // Handle new password submission
