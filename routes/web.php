@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ResultsController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
@@ -14,3 +15,5 @@ Route::get('/register', [LoginController::class, 'index'])->name('register');
 Route::post('/process_register', [LoginController::class, 'ProcessRegister'])->name('process_register');
 Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::get('/', [LoginController::class, 'login'])->name('login');
+Route::get('/reset_password', [ResetPasswordController::class, 'resetPassword'])->name('password.resetpassword');
+Route::post('/send_reset', [ResetPasswordController::class, 'sendReset'])->name('password.sendreset');

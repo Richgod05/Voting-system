@@ -9,11 +9,11 @@ class ResetPasswordController extends Controller
     // Show the request form where user enters email
     public function resetPassword()
     {
-        return view('password.email'); 
+        return view('resetpassword'); 
     }
 
     // Handle reset link email submission
-    public function sendResetLinkEmail(Request $request)
+    public function sendReset(Request $request)
     {
         $request->validate([
             'email' => 'required|email'
