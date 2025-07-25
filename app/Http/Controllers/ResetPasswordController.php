@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -6,53 +7,50 @@ use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
-    // Show the request form where user enters email
     public function resetPassword()
     {
-        return view('resetpassword'); 
+        return view('resetpassword');
     }
 
-    // Handle reset link email submission
     public function sendResetLink(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email'
-        ]);
+        $request->validate(['email' => 'required|email']);
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $status = Password::broker('students')
+                         ->sendResetLink($request->only('email'));
 
         return $status === Password::RESET_LINK_SENT
-                    ? back()->with(['success' => __($status)])
-                    : back()->withErrors(['email' => __($status)]);
+            ? back()->with('success', __($status))
+            : back()->withErrors(['email' => __($status)]);
     }
 
-    // Show password reset form with token
     public function showResetForm(Request $request, $token)
     {
-            return view('password.reset', ['token' => $token, 'email' => $request->input('email')]);
+        return view('password.reset', [
+            'token' => $token,
+            'email' => $request->input('email'),
+        ]);
     }
 
-    // Handle new password submission
     public function reset(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
-            'token' => 'required'
+            'email'                 => 'required|email',
+            'password'              => 'required|confirmed|min:8',
+            'token'                 => 'required',
         ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->password = bcrypt($password);
-                $user->save();
-            }
-        );
+        $status = Password::broker('students')
+                         ->reset(
+                            $request->only('email','password','password_confirmation','token'),
+                            function ($students, $password) {
+                                $students->password = bcrypt($password);
+                                $students->save();
+                            }
+                         );
 
         return $status === Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('success', 'Password reset successful. You can now log in.')
-                    : back()->withErrors(['email' => [__($status)]]);
+            ? redirect()->route('login')->with('success','Password reset successful.')
+            : back()->withErrors(['email'=>[__($status)]]);
     }
 }

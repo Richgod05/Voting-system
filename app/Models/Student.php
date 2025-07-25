@@ -1,12 +1,28 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Student extends Model
+class Student extends Authenticatable implements CanResetPasswordContract
 {
-    //relationship
+    use Notifiable, CanResetPasswordTrait;
+
+    // Your existing fillable, hidden, casts, etc.
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+     //relationship
     public function vote() {
         return $this->hasOne(Vote::class);
     }
