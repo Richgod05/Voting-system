@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>College Voting System</title>
+    <title>Reset Password</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
@@ -48,24 +48,6 @@
             border: none;
             font-weight: 600;
         }
-        .login-link {
-            margin-top: 1rem;
-            text-align: center;
-            font-size: 0.95rem;
-        }
-        .login-link a {
-            color: #072A6C;
-            text-decoration: underline;
-            font-weight: 600;
-        }
-        .eye-icon {
-            position: absolute;
-            right: 10px;
-            top: 38px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: #6c757d;
-        }
         @media (min-width: 768px) {
             .card-wrapper {
                 max-width: 600px;
@@ -85,28 +67,40 @@
                     </div>
                 </div>
 
-                @if (Session::has('success'))
-                    <div class="alert alert-success">{{ Session::get('success') }}</div>
-                @endif
-
-                @if (Session::has('error'))
-                    <div class="alert alert-danger">{{ Session::get('error') }}</div>
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('password.sendreset') }}">
                         @csrf
+
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required autofocus>
+                            <label for="email" class="form-label">Email Address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control @error('email') is-invalid @enderror"
+                                value="{{ old('email') }}"
+                                required
+                                autofocus
+                            >
+
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Submitt</button>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Submit
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    
 </body>
 </html>
