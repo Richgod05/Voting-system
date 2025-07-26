@@ -45,7 +45,7 @@ class LoginController extends Controller
         $student->password = Hash::make($request->input('password')); 
         $student->save();
 
-        return redirect()->route('vote.cast')->with('success', 'You have registered successfully.');
+        return redirect()->route('vote.show')->with('success', 'You have registered successfully.');
     }
 
     // Authenticate user
@@ -66,7 +66,7 @@ class LoginController extends Controller
             'email' => $request->input('email'),
             'password' => $request->input('password')
         ])) {
-            return redirect()->route('vote.cast');
+            return redirect()->route('vote.show');
         } else
 
         return redirect()->route('login')->with('error', 'Hatuna hii akaunti kwenye data zetu!');
