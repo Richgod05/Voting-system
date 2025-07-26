@@ -42,7 +42,7 @@ class LoginController extends Controller
 
         $student = new Student();
         $student->email = $request->input('email');
-        $student->password = Hash::make($request->input('password')); // more readable than bcrypt()
+        $student->password = Hash::make($request->input('password')); 
         $student->save();
 
         return redirect()->route('vote.cast')->with('success', 'You have registered successfully.');

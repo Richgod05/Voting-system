@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Vote;
 use App\Models\Candidate;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 
@@ -31,9 +32,9 @@ class VoteController extends Controller
                 'candidate_id' => 'required|exists:candidates,id',
             ]);
 
-            $user = \Illuminate\Support\Facades\Auth::user();
-            if (!$user || !isset($user->id)) {
-                return redirect()->route('vote.show')->with('error', 'User not authenticated or missing ID.');
+            $user = \Illuminate\Support\Facades\Auth::student();
+            if (!$user || !isset($student->id)) {
+                return redirect()->route('vote.show')->with('error', 'Student not authenticated or missing ID.');
             }
             $studentId = $user->id;
 

@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->redirectTo(
             guests: '/vote/register',
-            users: '/vote/show'
+            users: '/vote/cast'
         );
     })
     ->withExceptions(function (Exceptions $exceptions): void {

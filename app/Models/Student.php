@@ -10,6 +10,8 @@ class Student extends Authenticatable implements CanResetPasswordContract
 {
     use Notifiable, CanResetPasswordTrait;
 
+    protected $table ='students';
+
     // Your existing fillable, hidden, casts, etc.
     protected $fillable = [
         'name',
