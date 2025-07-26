@@ -34,7 +34,8 @@ Route::group(['prefix' => 'vote'], function (){
 
 Route::group(['prefix' => 'admin'], function(){
   Route::group(['middleware' => 'guest'], function(){
-
+    Route::get('adminlogin', [AdminController::class,'login'])->name('admin.adminlogin');
+    Route::post('authenticate', [AdminController::class, 'authenticate'])->name('admin.authenticate');
   });
 
   Route::group(['middleware' => 'auth'], function(){
