@@ -1,46 +1,49 @@
 @extends('layout.app')
 
 @section('styles')
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<style>
-    body {
-        font-family: 'Nunito', sans-serif;
-    }
-    .candidate-card {
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .candidate-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    }
-    .candidate-card-img {
-        height: 200px;
-        object-fit: cover;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-    }
-    .card-title {
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-    .card-text {
-        color: #555;
-        font-size: 0.95rem;
-    }
-    .vote-btn {
-        width: 100%;
-        font-weight: 600;
-    }
-</style>
+
+    <!-- Custom Styles (Load last to override Bootstrap) -->
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif !important;
+        }
+        .candidate-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .candidate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        .candidate-card-img {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .card-text {
+            color: #555;
+            font-size: 0.95rem;
+        }
+        .vote-btn {
+            width: 100%;
+            font-weight: 600;
+        }
+    </style>
 @endsection
 
 @section('content')
