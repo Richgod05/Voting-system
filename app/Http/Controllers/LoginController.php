@@ -58,7 +58,7 @@ class LoginController extends Controller
         // Log in after registration
         Auth::guard('students')->login($student);
 
-        return redirect()->route('vote.show')->with('success', 'Umejiandikisha na kuingia kikamilifu!');
+        return redirect()->route('vote.show')->with('success', 'You have login succesfully!');
     }
 
     // Authenticate student user
@@ -81,13 +81,13 @@ class LoginController extends Controller
             return redirect()->route('vote.show');
         }
 
-        return redirect()->route('login')->with('error', 'Hatuna hii akaunti kwenye data zetu!');
+        return redirect()->route('login')->with('error', 'Either password or Email is incorrect!');
     }
 
     // Logout student
     public function logout()
     {
         Auth::guard('students')->logout();
-        return redirect()->route('login')->with('success', 'Umelogout salama!');
+        return redirect()->route('login')->with('success', 'You have logout succesfully!');
     }
 }
