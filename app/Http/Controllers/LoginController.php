@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -13,12 +14,21 @@ class LoginController extends Controller
     // Show registration page
     public function index()
     {
+        // Redirect if already logged in as student
+        if (Auth::guard('students')->check()) {
+            return redirect()->route('vote.show');
+        }
+
         return view('register');
     }
 
     // Show login page
     public function login()
     {
+        if (Auth::guard('students')->check()) {
+            return redirect()->route('vote.show');
+        }
+
         return view('login');
     }
 
@@ -42,13 +52,16 @@ class LoginController extends Controller
 
         $student = new Student();
         $student->email = $request->input('email');
-        $student->password = Hash::make($request->input('password')); 
+        $student->password = Hash::make($request->input('password'));
         $student->save();
 
-        return redirect()->route('vote.show')->with('success', 'You have registered successfully.');
+        // Log in after registration
+        Auth::guard('students')->login($student);
+
+        return redirect()->route('vote.show')->with('success', 'Umejiandikisha na kuingia kikamilifu!');
     }
 
-    // Authenticate user
+    // Authenticate student user
     public function authenticate(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -62,13 +75,19 @@ class LoginController extends Controller
                 ->withInput();
         }
 
-        if (Auth::attempt([
-            'email' => $request->input('email'),
-            'password' => $request->input('password')
-        ])) {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::guard('students')->attempt($credentials)) {
             return redirect()->route('vote.show');
-        } else
+        }
 
         return redirect()->route('login')->with('error', 'Hatuna hii akaunti kwenye data zetu!');
+    }
+
+    // Logout student
+    public function logout()
+    {
+        Auth::guard('students')->logout();
+        return redirect()->route('login')->with('success', 'Umelogout salama!');
     }
 }
