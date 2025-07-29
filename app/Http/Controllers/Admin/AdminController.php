@@ -4,55 +4,70 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Vote;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Candidate;
 use App\Models\Student;
 
-
 class AdminController extends Controller
 {
-    //for admin dashboard
+    // Show admin login form
+    public function login()
+    {
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return view('admin.adminlogin');
+    }
+
+    // Authenticate admin credentials
+    public function authenticate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.adminlogin')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            $admin = Auth::guard('admin')->user();
+
+            if ($admin->role !== 'admin') {
+                Auth::guard('admin')->logout();
+                return redirect()->route('admin.adminlogin')->with('error', 'Access denied: Not an admin.');
+            }
+
+            return redirect()->route('admin.dashboard')->with('success', 'Welcome back, admin!');
+        }
+
+        return redirect()->route('admin.adminlogin')->with('error', 'Invalid login credentials.');
+    }
+
+    // Admin dashboard
     public function dashboard()
     {
+        $admin = Auth::guard('admin')->user();
+
+        if (!$admin || $admin->role !== 'admin') {
+            return redirect()->route('admin.adminlogin')->with('error', 'Unauthorized access.');
+        }
+
         $students = Student::with('vote')->get();
         $candidates = Candidate::withCount('votes')->get();
 
         return view('admin.dashboard', compact('students', 'candidates'));
     }
 
-    public function login(){
-        return view('admin.adminlogin');
+    // Logout admin
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+        return redirect()->route('admin.adminlogin')->with('success', 'You have logged out successfully!');
     }
-
-        public function authenticate(Request $request){
-        $validator = Validator::make($request->all(),[
-            'email'=>'required |email',
-            'password'=>'required'
-        ]);
-
-        if ($validator->passes()){
-
-            if(Auth::guard('admin')->attempt(['email'=>$request->email,'password'=>$request->password])){
-
-                if(Auth::guard('admin')->user()->role != "admin"){
-                    Auth::guard('admin')->logout();
-                    return redirect()->route('admin.adminlogin')->with('error','You are not Authorized to acess this page');
-                }
-
-                return redirect()->route('admin.dashboard');
-
-            } else {
-                return redirect()->route('admin.login')->with('error','Please register to user register page and get authenticated first');
-            }
-
-        } else {
-            return redirect()->route('admin.adminlogin')
-            ->withInput()
-            ->withErrors($validator);
-        }
-
-}
-
 }
