@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Student;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +14,8 @@ class LoginController extends Controller
     // Show registration page
     public function index()
     {
-        // Redirect if already logged in as student
-        if (Auth::guard('students')->check()) {
+        // Redirect if already logged in
+        if (Auth::check()) {
             return redirect()->route('vote.show');
         }
 
@@ -25,7 +25,7 @@ class LoginController extends Controller
     // Show login page
     public function login()
     {
-        if (Auth::guard('students')->check()) {
+        if (Auth::check()) {
             return redirect()->route('vote.show');
         }
 
@@ -36,7 +36,8 @@ class LoginController extends Controller
     public function processRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:students,email',
+            'name' => 'required|string|max:255', // Laravel expects a name field
+            'email' => 'required|email|unique:users,email',
             'password' => [
                 'required',
                 'confirmed',
@@ -50,18 +51,19 @@ class LoginController extends Controller
                 ->withInput();
         }
 
-        $student = new Student();
-        $student->email = $request->input('email');
-        $student->password = Hash::make($request->input('password'));
-        $student->save();
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
 
         // Log in after registration
-        Auth::guard('students')->login($student);
+        Auth::login($user);
 
-        return redirect()->route('vote.show')->with('success', 'You have login succesfully!');
+        return redirect()->route('vote.show')->with('success', 'You have logged in successfully!');
     }
 
-    // Authenticate student user
+    // Authenticate user
     public function authenticate(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -77,17 +79,17 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (Auth::guard('students')->attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
             return redirect()->route('vote.show');
         }
 
-        return redirect()->route('login')->with('error', 'Either password or Email is incorrect!');
+        return redirect()->route('login')->with('error', 'Either password or email is incorrect!');
     }
 
-    // Logout student
+    // Logout user
     public function logout()
     {
-        Auth::guard('students')->logout();
-        return redirect()->route('login')->with('success', 'You have logout succesfully!');
+        Auth::logout();
+        return redirect()->route('login')->with('success', 'You have logged out successfully!');
     }
 }

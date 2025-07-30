@@ -7,26 +7,25 @@ use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
-    // For guests: show basic reset request form
+    // Show reset request form
     public function resetPassword()
     {
-        return view('password.resetpassword'); // Use a clear view name
+        return view('password.resetpassword'); // Make sure this view exists
     }
 
-    // For guests: send reset link to student's email
+    // Send reset link to user's email
     public function sendResetLink(Request $request)
     {
         $request->validate(['email' => 'required|email']);
 
-        $status = Password::broker('students')
-            ->sendResetLink($request->only('email'));
+        $status = Password::sendResetLink($request->only('email'));
 
         return $status === Password::RESET_LINK_SENT
             ? back()->with('success', __($status))
             : back()->withErrors(['email' => __($status)]);
     }
 
-    // For guests: show reset form with token
+    // Show form to enter new password
     public function showResetForm(Request $request, $token = null)
     {
         return view('password.reset.form', [
@@ -35,20 +34,20 @@ class ResetPasswordController extends Controller
         ]);
     }
 
-    // For authenticated students: handle direct reset request
+    // Process the password reset
     public function reset(Request $request)
     {
         $request->validate([
-            'email'                 => 'required|email',
-            'password'              => 'required|confirmed|min:8',
-            'token'                 => 'required',
+            'email'    => 'required|email',
+            'password' => 'required|confirmed|min:8',
+            'token'    => 'required',
         ]);
 
-        $status = Password::broker('students')->reset(
+        $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($student, $password) {
-                $student->password = bcrypt($password);
-                $student->save();
+            function ($user, $password) {
+                $user->password = bcrypt($password);
+                $user->save();
             }
         );
 

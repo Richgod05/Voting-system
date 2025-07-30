@@ -102,17 +102,26 @@
 
                     <form method="POST" action="{{ route('process_register') }}">
                         @csrf
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Username</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                   id="name" name="name" value="{{ old('name') }}" required>
+                        </div>
+
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                    id="email" name="email" value="{{ old('email') }}" required autofocus>
                         </div>
+
                         <div class="mb-3 position-relative">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror"
                                    id="password" name="password" required>
                             <i class="bi bi-eye eye-icon" data-target="password"></i>
                         </div>
+
                         <div class="mb-3 position-relative">
                             <label for="password_confirmation" class="form-label">Repeat Password</label>
                             <input type="password"
@@ -120,6 +129,7 @@
                                    id="password_confirmation" name="password_confirmation" required>
                             <i class="bi bi-eye eye-icon" data-target="password_confirmation"></i>
                         </div>
+
                         <button type="submit" class="btn btn-primary w-100">Register</button>
                     </form>
 

@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name'); // Required by Laravel for default auth
             $table->string('email')->unique();
+            $table->enum('role', ['admin', 'student'])->default('student'); // Your role setup
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

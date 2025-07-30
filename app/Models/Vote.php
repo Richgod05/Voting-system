@@ -6,12 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
 {
-    //relationship
-    public function student() {
-        return $this->belongsTo(Student::class);
+    // Relationships
+
+    // Update this to reference the new User model
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id'); // still uses 'student_id' unless changed in DB
     }
 
-    public function candidate() {
+    public function candidate()
+    {
         return $this->belongsTo(Candidate::class);
     }
 }

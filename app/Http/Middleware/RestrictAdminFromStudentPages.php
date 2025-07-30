@@ -14,21 +14,18 @@ class RestrictAdminFromStudentPages
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    
+    public function handle(Request $request, Closure $next): Response
+    {
+        $user = Auth::user(); // Uses default 'web' guard
 
-    public function handle($request, Closure $next)
-        {
-                $student = Auth::guard('students')->user();
+        if ($user && $user->role === 'admin') {
+            // Option 1: redirect to admin page
+            return redirect()->route('admin.dashboard')->with('error', 'Admins cannot access student pages.');
 
-                if ($student && $student->role === 'admin') {
-                    // Option 1: redirect to admin page
-                    return redirect()->route('admin.dashboard')->with('error', 'Admins cannot access student pages.');
-
-                    // Option 2: abort completely
-                    // abort(403, 'Access denied.');
-                }
-
-            return $next($request);
+            // Option 2: abort completely
+            // abort(403, 'Access denied.');
         }
-}
 
+        return $next($request);
+    }
+}
