@@ -28,7 +28,9 @@ Route::group(['prefix' => 'vote'], function () {
     // Authenticated student routes 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('show', [VoteController::class, 'show'])->name('vote.show');
-        Route::post('cast', [VoteController::class, 'cast'])->name('vote.cast');
+        Route::get('cast', function () {
+            return redirect()->route('vote.show')->with('error', 'Invalid voting method. Use the Vote button.');
+        });
         Route::get('results', [ResultsController::class, 'results'])->name('vote.results');
 
         // Optional reset actions after login (e.g. change password)

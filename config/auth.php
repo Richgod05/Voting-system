@@ -17,6 +17,11 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+
+        'students' => [ 
+            'driver' => 'session',
+            'provider' => 'users', 
+        ],
     ],
 
     'providers' => [
@@ -29,6 +34,7 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_ADMIN_MODEL', App\Models\User::class),
         ],
+
     ],
 
     'passwords' => [
