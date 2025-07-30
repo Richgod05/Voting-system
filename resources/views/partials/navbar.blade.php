@@ -38,9 +38,9 @@
         <!-- Right Section: Username, Profile Image, and Logout -->
         <div style="display: flex; align-items: center;">
             <span style="font-weight: 600; margin-right: 10px;">
-                {{ Auth::guard('students')->user()->email ?? 'User' }}
+                {{ Auth::guard('web')->user()->name ?? 'User' }}
             </span>
-            <img src="{{ Auth::guard('students')->user()->profile_image_url ?? asset('images/profile.png') }}"
+            <img src="{{ Auth::guard('web')->user()->profile_image_url ?? asset('images/profile.png') }}"
                  alt="Profile Image" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover; margin-right: 15px;">
 
             <form action="{{ route('logout') }}" method="POST">
