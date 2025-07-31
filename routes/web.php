@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'vote'], function () {
 
-    // Guest routes for students 
+    // Guest routes for students
     Route::group(['middleware' => 'guest'], function () {
         Route::get('register', [LoginController::class, 'index'])->name('register');
         Route::post('process_register', [LoginController::class, 'processRegister'])->name('process_register');
@@ -25,12 +25,10 @@ Route::group(['prefix' => 'vote'], function () {
              ->name('password.sendreset');
     });
 
-    // Authenticated student routes 
+    // Authenticated student routes
     Route::group(['middleware' => 'auth'], function () {
         Route::get('show', [VoteController::class, 'show'])->name('vote.show');
-        Route::get('cast', function () {
-            return redirect()->route('vote.show')->with('error', 'Invalid voting method. Use the Vote button.');
-        });
+        Route::post('cast', [VoteController::class, 'cast'])->name('vote.cast');
         Route::get('results', [ResultsController::class, 'results'])->name('vote.results');
 
         // Optional reset actions after login (e.g. change password)
@@ -39,7 +37,7 @@ Route::group(['prefix' => 'vote'], function () {
         Route::get('resetting', [ResetPasswordController::class, 'reset'])
              ->name('password.update');
 
-        // Logout route for students → now users
+        // Logout route for students
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     });
 });
@@ -47,14 +45,14 @@ Route::group(['prefix' => 'vote'], function () {
 Route::group(['prefix' => 'admin'], function () {
 
     // Guest routes for admins
-    Route::group(['middleware' => 'guest'], function () {
+    Route::group(['middleware' => 'admin.guest'], function () {
         Route::get('adminlogin', [AdminController::class, 'login'])->name('admin.adminlogin');
         Route::post('authenticate', [AdminController::class, 'authenticate'])
              ->name('admin.authenticate');
     });
 
-    // Authenticated admin routes (unchanged)
-    Route::group(['middleware' => 'auth:admins'], function () {
+    // Authenticated admin routes
+    Route::group(['middleware' => 'admin.auth'], function () {
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
         // Logout route for admins

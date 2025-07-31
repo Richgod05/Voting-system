@@ -9,17 +9,19 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminRedirect
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('admin')->check()){
+        // 1) Let the login page and authenticate action run unhindered
+        if ($request->is('admin/adminlogin') || $request->is('admin/authenticate')) {
+            return $next($request);
+        }
+
+        // 2) If the guard is active, redirect to dashboard
+        if (Auth::guard('admins')->check()) {
             return redirect()->route('admin.dashboard');
         }
 
+        // 3) Otherwise show the login form (or whatever’s next)
         return $next($request);
     }
 }
