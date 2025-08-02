@@ -11,42 +11,40 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Register your admin middleware aliases
+        // 1. Register your admin middleware aliases
         $middleware->alias([
             'admin.guest' => \App\Http\Middleware\AdminRedirect::class,
             'admin.auth'  => \App\Http\Middleware\AdminAuthenticate::class,
         ]);
 
-        // Global redirect logic, with exemptions for admin login routes
+        // 2. Global redirect logic ONLY for “vote” (student) routes
         $middleware->redirectTo(
-            // Guests
+            // Guests → force to /vote/register when they hit any vote URI
             guests: static function ($request): ?string {
-                // Exempt admin login and authenticate routes from global redirect
-                if ($request->is('admin/adminlogin') || $request->is('admin/authenticate')) {
-                    return null;
+                if (str_starts_with($request->path(), 'vote')) {
+                    // Allow the register page itself
+                    return $request->is('vote/register')
+                        ? null
+                        : '/vote/register';
                 }
-
-                // Otherwise route guests to either admin login or student register
-                return str_starts_with($request->path(), 'admin')
-                    ? '/admin/adminlogin'
-                    : '/vote/register';
+                // No redirect for non-vote (including admin) URIs
+                return null;
             },
 
-            // Authenticated users
+            // Authenticated users → force to /vote/show when they hit any vote URI
             users: static function ($request): ?string {
-                // Exempt admin dashboard and logout from global redirect
-                if ($request->is('admin/dashboard') || $request->is('admin/logout')) {
-                    return null;
+                if (str_starts_with($request->path(), 'vote')) {
+                    // Allow the show page itself
+                    return $request->is('vote/show')
+                        ? null
+                        : '/vote/show';
                 }
-
-                // Otherwise route authenticated users to either admin dashboard or vote show
-                return str_starts_with($request->path(), 'admin')
-                    ? '/admin/dashboard'
-                    : '/vote/show';
+                // No redirect for non-vote (including admin) URIs
+                return null;
             }
         );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // ...
     })
     ->create();

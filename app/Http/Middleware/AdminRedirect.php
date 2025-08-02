@@ -4,24 +4,18 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AdminRedirect
 {
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        // 1) Let the login page and authenticate action run unhindered
-        if ($request->is('admin/adminlogin') || $request->is('admin/authenticate')) {
-            return $next($request);
-        }
-
-        // 2) If the guard is active, redirect to dashboard
+        // If already logged in as admin, send to dashboard
         if (Auth::guard('admins')->check()) {
             return redirect()->route('admin.dashboard');
         }
 
-        // 3) Otherwise show the login form (or whatever’s next)
+        // Otherwise proceed to login form or authenticate
         return $next($request);
     }
 }
