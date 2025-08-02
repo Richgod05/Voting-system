@@ -105,7 +105,7 @@
                             <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
                             <i class="bi bi-eye eye-icon" data-target="password"></i>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <button type="submit" class="btn btn-primary w-100">Login Admin</button>
                     </form>
                 </div>
             </div>

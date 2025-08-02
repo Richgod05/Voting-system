@@ -55,6 +55,7 @@ class LoginController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
+        $user->role = 'student';
         $user->save();
 
         // Log in after registration

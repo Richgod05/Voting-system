@@ -14,7 +14,7 @@ class CheckAdminRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $admin = Auth::guard('admin')->user();
+        $admin = Auth::guard('admins')->user();
 
         if (!$admin || $admin->role !== 'admin') {
             return redirect()->route('admin.adminlogin')
