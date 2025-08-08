@@ -56,6 +56,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
         // Logout route for admins
-        Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
+        Route::post('logout', [AdminController::class, 'logoutAdmin'])->name('admin.logout');
     });
 });

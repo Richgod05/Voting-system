@@ -10,12 +10,12 @@ class AdminAuthenticate
 {
     public function handle(Request $request, Closure $next)
     {
-        // If logged in as admin, allow access to admin routes
-        if (Auth::guard('admins')->check()) {
-            return $next($request);
+        
+             if (!Auth::guard('admins')->check()){
+            return redirect()->route('admin.adminlogin');
         }
 
-        // Otherwise redirect back to admin login
-        return redirect()->route('admin.adminlogin');
+        return $next($request);
+        
     }
 }

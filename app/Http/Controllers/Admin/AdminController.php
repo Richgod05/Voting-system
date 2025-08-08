@@ -14,39 +14,36 @@ class AdminController extends Controller
     // Show admin login form
     public function login()
     {
-        if (Auth::check() && Auth::user()->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        }
-
         return view('admin.adminlogin');
     }
 
-    // Authenticate admin credentials
-    public function authenticate(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required'
+    //this methoe will authenticate admin.
+    public function authenticate(Request $request){
+        $validator = Validator::make($request->all(),[
+            'email'=>'required |email',
+            'password'=>'required'
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->route('admin.adminlogin')
-                ->withErrors($validator)
-                ->withInput();
-        }
+        if ($validator->passes()){
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $admin = Auth::user();
+            if(Auth::guard('admins')->attempt(['email'=>$request->email,'password'=>$request->password])){
 
-            if ($admin->role !== 'admin') {
-                Auth::logout();
-                return redirect()->route('admin.adminlogin')->with('error', 'Access denied: Not an admin.');
+                if(Auth::guard('admins')->user()->role != "admin"){
+                    Auth::guard('admins')->logout();
+                    return redirect()->route('admin.adminlogin')->with('error','You are not Authorized to acess this page');
+                }
+
+                return redirect()->route('admin.dashboard');
+
+            } else {
+                return redirect()->route('admin.adminlogin')->with('error','Please register to user register page and get authenticated first');
             }
 
-            return redirect()->route('admin.dashboard')->with('success', 'Welcome back, admin!');
+        } else {
+            return redirect()->route('admin.adminlogin')
+            ->withInput()
+            ->withErrors($validator);
         }
-
-        return redirect()->route('admin.adminlogin')->with('error', 'Invalid login credentials.');
     }
 
     // Admin dashboard
@@ -65,7 +62,7 @@ class AdminController extends Controller
     }
 
     // Logout admin
-    public function logout()
+    public function logoutAdmin()
     {
         Auth::logout();
         return redirect()->route('admin.adminlogin')->with('success', 'You have logged out successfully!');

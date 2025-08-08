@@ -17,13 +17,13 @@
     @yield('styles')
 </head>
 <body style="font-family: 'Nunito', sans-serif;">
-    @include('adminpartials.navbar')
+    @include('Admin.adminpartials.navbar')
 
     <main class="container mt-4">
         @yield('content')
     </main>
 
-    @include('adminpartials.footer')
+    @include('Admin.adminpartials.footer')
 
     <!-- Bootstrap JS (optional, if needed for modals etc.) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
