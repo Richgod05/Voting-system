@@ -36,7 +36,7 @@ class AdminController extends Controller
                 return redirect()->route('admin.dashboard');
 
             } else {
-                return redirect()->route('admin.adminlogin')->with('error','Please register to user register page and get authenticated first');
+                return redirect()->route('admin.adminlogin')->with('error','You are not authorized to access this page');
             }
 
         } else {
