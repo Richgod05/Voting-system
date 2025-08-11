@@ -5,7 +5,7 @@
     <div class="accordion" id="sidebarAccordion">
 
         <!-- Admin -->
-        <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center px-4 py-2">
+        <a href="{{ route('admin.user') }}" class="d-flex align-items-center px-4 py-2">
             <i class="bi bi-person-gear"></i> Admin User
         </a>
 

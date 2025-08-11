@@ -58,6 +58,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('candidates', [DasboardController::class, 'index'])->name('admin.candidate');
         Route::get('qualified', [DasboardController::class, 'showQualified'])->name('admin.qualifiedcandidates');
+        Route::get('admins', [DasboardController::class, 'user'])->name('admin.user');
+
 
 
 
