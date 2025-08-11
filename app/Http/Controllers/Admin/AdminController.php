@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -49,16 +48,7 @@ class AdminController extends Controller
     // Admin dashboard
     public function dashboard()
     {
-        $admin = Auth::user();
-
-        if (!$admin || $admin->role !== 'admin') {
-            return redirect()->route('admin.adminlogin')->with('error', 'Unauthorized access.');
-        }
-
-        $students = User::where('role', 'student')->with('vote')->get();
-        $candidates = Candidate::withCount('votes')->get();
-
-        return view('admin.dashboard', compact('students', 'candidates'));
+        return view('admin.dashboard');
     }
 
     // Logout admin

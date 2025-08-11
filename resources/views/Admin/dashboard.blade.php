@@ -29,12 +29,12 @@
         </div>
 
         <!-- Requested Candidates -->
-        <a href="#" class="d-flex align-items-center px-4 py-2">
+        <a href="{{ route('admin.candidate') }}" class="d-flex align-items-center px-4 py-2">
             <i class="bi bi-person-plus"></i> Requested Candidates
         </a>
 
         <!-- Qualified Candidates -->
-        <a href="#" class="d-flex align-items-center px-4 py-2">
+        <a href="{{ route('admin.qualifiedcandidates') }}" class="d-flex align-items-center px-4 py-2">
             <i class="bi bi-patch-check"></i> Qualified Candidates
         </a>
 

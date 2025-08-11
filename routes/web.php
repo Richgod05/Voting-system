@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DasboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ResultsController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'vote'], function () {
@@ -54,6 +56,10 @@ Route::group(['prefix' => 'admin'], function () {
     // Authenticated admin routes
     Route::group(['middleware' => 'admin.auth'], function () {
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('candidates', [DasboardController::class, 'index'])->name('admin.candidate');
+        Route::get('qualified', [DasboardController::class, 'showQualified'])->name('admin.qualifiedcandidates');
+
+
 
         // Logout route for admins
         Route::post('logout', [AdminController::class, 'logoutAdmin'])->name('admin.logout');
