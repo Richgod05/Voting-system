@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +13,11 @@ return new class extends Migration
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('level')->nullable();
+            $table->string('programme')->nullable();
             $table->text('manifesto')->nullable();
+            $table->string('status')->default('Disqualified');
+            $table->string('image')->nullable(); // path to uploaded image
             $table->timestamps();
         });
     }

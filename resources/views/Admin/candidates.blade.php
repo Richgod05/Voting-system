@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0">Candidate List</h2>
-        <a href="#" class="btn btn-primary">Add Candidate</a>
+        <a href="{{ route('Admin.addcandidate') }}" class="btn btn-primary">Add Candidate</a>
     </div>
 
     <div class="table-responsive">
