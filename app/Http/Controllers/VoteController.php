@@ -37,7 +37,7 @@ class VoteController extends Controller
         $studentId = $user->id;
 
         // Check if the student has already voted
-        $existingVote = Vote::where('student_id', $studentId)->first();
+        $existingVote = Vote::where('user_id', $studentId)->first();
 
         if ($existingVote) {
             return redirect()->route('vote.show')->with('error', 'You have already voted.');
@@ -45,7 +45,7 @@ class VoteController extends Controller
 
         // Record the vote
         Vote::create([
-            'student_id' => $studentId,
+            'user_id' => $studentId,
             'candidate_id' => $request->input('candidate_id'),
         ]);
 

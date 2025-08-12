@@ -6,9 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
 {
-    // Relationships
+    public $timestamps = false;
+   protected $fillable = [
+        'user_id',
+        'candidate_id',
+        'timestamp',
+   ];
 
-    // Update this to reference the new User model
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id'); // still uses 'student_id' unless changed in DB

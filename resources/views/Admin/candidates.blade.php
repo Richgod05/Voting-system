@@ -30,8 +30,11 @@
                         <td>{{ $candidate->manifesto }}</td>
                         <td>{{ $candidate->candidate_id }}</td>
                         <td>
-                            <span class="badge {{ $candidate->status === 'Qualified' ? 'bg-success' : 'bg-secondary' }}">
-                                {{ $candidate->status }}
+                            @php
+                                $status = $candidate->status ?? 'Qualified';
+                            @endphp
+                            <span class="badge {{ $status === 'Qualified' ? 'bg-success' : 'bg-secondary' }}">
+                                {{ $status }}
                             </span>
                         </td>
                     </tr>
