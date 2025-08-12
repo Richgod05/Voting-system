@@ -49,6 +49,6 @@ class VoteController extends Controller
             'candidate_id' => $request->input('candidate_id'),
         ]);
 
-        return redirect()->route('vote.show')->with('success', 'Your vote has been recorded!');
+        return redirect()->route('vote.results')->with('success', 'Your vote has been recorded!');
     }
 }
