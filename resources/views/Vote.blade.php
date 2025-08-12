@@ -26,8 +26,10 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
         .candidate-card-img {
+            width: 100%;
             height: 200px;
             object-fit: cover;
+            image-rendering: auto;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
         }
@@ -61,7 +63,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card candidate-card h-100">
                     <img
-                        src="{{ asset('storage/candidates/' . $candidate->image) }}"
+                        src="{{ $candidate->image ? asset('storage/candidates/' . $candidate->image) : asset('storage/candidates/profile.png') }}"
                         alt="{{ $candidate->name }}"
                         class="card-img-top candidate-card-img"
                     >

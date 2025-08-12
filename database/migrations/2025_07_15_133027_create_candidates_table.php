@@ -13,11 +13,11 @@ return new class extends Migration
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('level')->nullable();
-            $table->string('programme')->nullable();
-            $table->text('manifesto')->nullable();
+            $table->string('level')->default('no level provided');
+            $table->string('programme')->default('no programme provided');
+            $table->text('manifesto')->default('No manifesto provided');
             $table->string('status')->default('Disqualified');
-            $table->string('image')->nullable(); // path to uploaded image
+            $table->string('image')->default('profile.png'); // path to uploaded image
             $table->timestamps();
         });
     }

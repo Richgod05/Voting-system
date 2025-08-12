@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained()->unique();
+            $table->foreignId('user_id')->constrained()->unique();
             $table->foreignId('candidate_id')->constrained();
             $table->timestamp('timestamp')->useCurrent();
         });

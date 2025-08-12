@@ -37,27 +37,35 @@ class DasboardController extends Controller
 public function store(Request $request)
 {
     $request->validate([
-        'name' => 'required|string',
-        'level' => 'required|string',
-        'programme' => 'required|string',
-        'manifesto' => 'required|string',
+        'name' => 'required|string|min:1',
+        'level' => 'required|string|min:1',
+        'programme' => 'required|string|min:1',
+        'manifesto' => 'required|string|min:1',
         'status' => 'required|in:Qualified,Disqualified',
         'image' => 'nullable|image|max:2048',
     ]);
 
-    $data = $request->only(['name', 'level', 'programme', 'manifesto', 'candidate_id', 'status']);
+    $data = $request->only(['name', 'level', 'programme', 'manifesto', 'status']);
 
+    // Apply fallback defaults if fields are empty or whitespace
+    $data['level'] = trim($data['level']) !== '' ? $data['level'] : 'Unknown';
+    $data['programme'] = trim($data['programme']) !== '' ? $data['programme'] : 'Undeclared';
+    $data['manifesto'] = trim($data['manifesto']) !== '' ? $data['manifesto'] : 'No manifesto provided.';
+    $data['status'] = $data['status'] ?? 'Disqualified';
+
+    // Handle image upload or fallback to default
     if ($request->hasFile('image')) {
         $file = $request->file('image');
         $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(); 
         $file->storeAs('public/candidates', $filename); 
         $data['image'] = 'candidates/' . $filename; 
+    } else {
+        $data['image'] = 'profile.png'; // Make sure this file exists in your public storage
     }
 
     Candidate::create($data);
 
     return redirect()->route('admin.candidate')->with('success', 'Candidate added successfully!');
 }
-
 
 }
