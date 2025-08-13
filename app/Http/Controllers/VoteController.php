@@ -15,11 +15,16 @@ class VoteController extends Controller
         return view('vote');
     }
 
-    public function show()
-    {
-        $candidates = Candidate::all();
-        return view('vote', compact('candidates'));
-    }
+public function show()
+{
+    $user = Auth::user(); // Get the authenticated user
+    $studentId = $user->id; // Or however you're identifying the user
+    $hasVoted = Vote::where('user_id', $studentId)->exists();
+    $candidates = Candidate::all();
+
+    return view('vote', compact('candidates', 'hasVoted'));
+}
+
 
     public function cast(Request $request)
     {
@@ -41,7 +46,16 @@ class VoteController extends Controller
 
         if ($existingVote) {
             return redirect()->route('vote.show')->with('error', 'You have already voted.');
+
+            $user = Auth::user();
+            $studentId = $user->id(); // or however you're identifying the user
+            $hasVoted = Vote::where('user_id', $studentId)->exists();
+
+            return view('vote.show', compact('hasVoted', 'candidates'));
+
         }
+        
+        
 
         // Record the vote
         Vote::create([

@@ -82,7 +82,8 @@
                         >
                             @csrf
                             <input type="hidden" name="candidate_id" value="{{ $candidate->id }}">
-                            <button type="submit" class="btn btn-primary vote-btn">
+                            <button type="submit" class="btn btn-primary vote-btn" data-voted="{{ $hasVoted ? 'true' : 'false'}}"
+                            data-candidate-id="{{ $candidate->id }}">
                                 Vote Now
                             </button>
                         </form>
@@ -106,6 +107,37 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+    
+
+    
+document.addEventListener('DOMContentLoaded', function () {
+    const voteButtons = document.querySelectorAll('.vote-btn');
+
+    // On page load: hide all buttons if user already voted
+    const alreadyVoted = Array.from(voteButtons).some(btn => btn.dataset.voted === "true");
+    if (alreadyVoted) {
+        voteButtons.forEach(btn => btn.style.display = 'none');
+    }
+
+    // On click: vote and hide all buttons
+    voteButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const candidateId = btn.dataset.candidateId;
+
+            // OPTIONAL: Send vote via form or AJAX
+            // Example: document.getElementById('vote-form-' + candidateId).submit();
+
+            // Hide all buttons
+            voteButtons.forEach(b => {
+                b.style.display = 'none';
+                b.dataset.voted = "true";
+            });
+        });
+    });
+});
+
+
+
 });
 </script>
 @endsection
