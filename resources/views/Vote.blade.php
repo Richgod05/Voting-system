@@ -10,7 +10,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Custom Styles (Load last to override Bootstrap) -->
+    <!-- Custom Styles -->
     <style>
         body {
             font-family: 'Nunito', sans-serif !important;
@@ -62,8 +62,13 @@
         @foreach ($candidates as $candidate)
             <div class="col-md-4 mb-4">
                 <div class="card candidate-card h-100">
+                    @php
+                        $imagePath = $candidate->image && file_exists(public_path('storage/candidates/' . $candidate->image))
+                            ? 'storage/candidates/' . $candidate->image
+                            : 'storage/candidates/profile.png';
+                    @endphp
                     <img
-                        src="{{ $candidate->image ? asset('storage/candidates/' . $candidate->image) : asset('storage/candidates/profile.png') }}"
+                        src="{{ asset($imagePath) }}"
                         alt="{{ $candidate->name }}"
                         class="card-img-top candidate-card-img"
                     >
@@ -82,8 +87,9 @@
                         >
                             @csrf
                             <input type="hidden" name="candidate_id" value="{{ $candidate->id }}">
-                            <button type="submit" class="btn btn-primary vote-btn" data-voted="{{ $hasVoted ? 'true' : 'false'}}"
-                            data-candidate-id="{{ $candidate->id }}">
+                            <button type="submit" class="btn btn-primary vote-btn"
+                                data-voted="{{ $hasVoted ? 'true' : 'false'}}"
+                                data-candidate-id="{{ $candidate->id }}">
                                 Vote Now
                             </button>
                         </form>
@@ -107,37 +113,22 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-    
 
-    
-document.addEventListener('DOMContentLoaded', function () {
     const voteButtons = document.querySelectorAll('.vote-btn');
-
-    // On page load: hide all buttons if user already voted
     const alreadyVoted = Array.from(voteButtons).some(btn => btn.dataset.voted === "true");
+
     if (alreadyVoted) {
         voteButtons.forEach(btn => btn.style.display = 'none');
     }
 
-    // On click: vote and hide all buttons
     voteButtons.forEach(function (btn) {
         btn.addEventListener('click', function () {
-            const candidateId = btn.dataset.candidateId;
-
-            // OPTIONAL: Send vote via form or AJAX
-            // Example: document.getElementById('vote-form-' + candidateId).submit();
-
-            // Hide all buttons
             voteButtons.forEach(b => {
                 b.style.display = 'none';
                 b.dataset.voted = "true";
             });
         });
     });
-});
-
-
-
 });
 </script>
 @endsection
