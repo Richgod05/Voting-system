@@ -51,6 +51,14 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
+    //results controller
+        public function results()
+    {
+            $results = Candidate::withCount('votes')->get();
+            return view('results', compact('results'));
+    }
+
+
     // Logout admin
     public function logoutAdmin()
     {

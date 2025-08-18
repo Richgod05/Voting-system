@@ -8,6 +8,7 @@ use App\Http\Controllers\ResultsController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::group(['prefix' => 'vote'], function () {
 
@@ -61,6 +62,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('admins', [DasboardController::class, 'user'])->name('admin.user');     
         Route::get('create_candidate', [DasboardController::class, 'create'])->name('Admin.addcandidate');
         Route::post('store_candidate', [DasboardController::class, 'store'])->name('admin.store_candidate');
+        Route::get('results', [DasboardController::class, 'results'])->name('admin.results');
+
 
 
 
