@@ -11,12 +11,11 @@ class Candidate extends Model
      */
     protected $fillable = [
         'name',
-        // add any other columns you want to mass-assign:
-        // 'level',
-        // 'programme',
-        // 'manifesto',
-        // 'status',
-        // 'image',
+         'level',
+         'programme',
+         'manifesto',
+         'status',
+         'image',
     ];
 
     /**
