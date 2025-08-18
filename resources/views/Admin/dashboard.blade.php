@@ -57,7 +57,7 @@
         </div>
 
         <!-- Votes -->
-        <a href="#" class="d-flex align-items-center px-4 py-2">
+        <a href="{{ route('vote.results') }}" class="d-flex align-items-center px-4 py-2">
             <i class="bi bi-bar-chart-line"></i> Votes
         </a>
 
