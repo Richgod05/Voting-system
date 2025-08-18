@@ -52,7 +52,7 @@ class AdminController extends Controller
     }
 
     //results controller
-        public function results()
+        public function adminResults()
     {
             $results = Candidate::withCount('votes')->get();
             return view('results', compact('results'));
