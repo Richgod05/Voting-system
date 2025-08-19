@@ -16,7 +16,8 @@
                     <th>Level</th>
                     <th>Programme</th>
                     <th>Manifesto</th>
-                    <th>Candidate ID</th>
+                    <th>Position</th> {{-- ✅ New column --}}
+                    <th>Image</th>    {{-- ✅ Replacing Candidate ID --}}
                     <th>Status</th>
                 </tr>
             </thead>
@@ -30,14 +31,21 @@
                         <td>{{ $candidate->level }}</td>
                         <td>{{ $candidate->programme }}</td>
                         <td>{{ $candidate->manifesto }}</td>
-                        <td>{{ $candidate->candidate_id }}</td>
+                        <td>{{ $candidate->position ?? 'N/A' }}</td> 
+                        <td>
+                            @if($candidate->image)
+                                <img src="{{ asset('storage/' . $candidate->image) }}" alt="Candidate Image" width="60" height="60" class="rounded-circle">
+                            @else
+                                <span class="text-muted">No image</span>
+                            @endif
+                        </td>
                         <td>
                             <span class="badge bg-success">Qualified</span>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center">No qualified candidates found.</td>
+                        <td colspan="8" class="text-center">No qualified candidates found.</td> 
                     </tr>
                 @endforelse
             </tbody>
