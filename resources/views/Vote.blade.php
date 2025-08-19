@@ -20,30 +20,54 @@
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 15px;
+            background-color: #fff;
         }
         .candidate-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
+        .candidate-info {
+            flex: 1;
+            padding-right: 15px;
+        }
         .candidate-card-img {
-            width: 100%;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             object-fit: cover;
-            image-rendering: auto;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            border-radius: 10px;
         }
         .card-title {
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.2rem;
             margin-bottom: 0.5rem;
         }
         .card-text {
             color: #555;
             font-size: 0.95rem;
+            margin-bottom: 0.3rem;
         }
         .vote-btn {
-            width: 100%;
             font-weight: 600;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .candidate-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .candidate-info {
+                padding-right: 0;
+                padding-bottom: 10px;
+            }
+            .candidate-card-img {
+                width: 100%;
+                height: auto;
+            }
         }
     </style>
 @endsection
@@ -58,27 +82,16 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <div class="row">
+    <div class="row row-cols-1 row-cols-sm-2 g-4">
         @foreach ($candidates as $candidate)
-            <div class="col-md-4 mb-4">
-                <div class="card candidate-card h-100">
-                    @php
-                        $imagePath = $candidate->image && file_exists(public_path('storage/candidates/' . $candidate->image))
-                            ? 'storage/candidates/' . $candidate->image
-                            : 'storage/candidates/profile.png';
-                    @endphp
-                    <img
-                        src="{{ asset($imagePath) }}"
-                        alt="{{ $candidate->name }}"
-                        class="card-img-top candidate-card-img"
-                    >
-                    <div class="card-body text-center">
+            <div class="col">
+                <div class="card candidate-card">
+                    <div class="candidate-info">
                         <h5 class="card-title">{{ $candidate->name }}</h5>
-                        <p class="card-text">
-                            {{ \Illuminate\Support\Str::limit($candidate->manifesto, 100, '...') }}
-                        </p>
-                    </div>
-                    <div class="card-footer bg-transparent border-top-0">
+                        <p class="card-text"><strong>Level:</strong> {{ $candidate->level }}</p>
+                        <p class="card-text"><strong>Programme:</strong> {{ $candidate->programme }}</p>
+                        <p class="card-text"><strong>Position:</strong> {{ $candidate->position }}</p>
+                        <p class="card-text">{{ \Illuminate\Support\Str::limit($candidate->manifesto, 100, '...') }}</p>
                         <form
                             action="{{ route('vote.cast') }}"
                             method="POST"
@@ -94,10 +107,16 @@
                             </button>
                         </form>
                     </div>
+                    @php
+                        $imagePath = file_exists(public_path('images/' . $candidate->image))
+                        ? 'images/' . $candidate->image
+                        : 'images/profile.png';
+                    @endphp
+                    <img src="{{ asset($imagePath) }}" alt="{{ $candidate->name }}" class="candidate-card-img">
                 </div>
             </div>
         @endforeach
-    </div>    
+    </div>
 </div>
 @endsection
 

@@ -77,17 +77,43 @@ public function store(Request $request)
 
     // Handle image upload or fallback to default
     if ($request->hasFile('image')) {
-        $file = $request->file('image');
-        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(); 
-        $file->storeAs('public/candidates', $filename); 
-        $data['image'] = 'candidates/' . $filename; 
-    } else {
-        $data['image'] = 'profile.png'; // Make sure this file exists in your public storage
+    $file = $request->file('image');
+    $imageName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+    $file->move(public_path('images'), $imageName);
+    $request->merge(['image' => $imageName]);
+
+    } 
+    else {
+    $request->merge(['image' => 'profile.png']);
     }
 
     Candidate::create($data);
 
     return redirect()->route('admin.candidate')->with('success', 'Candidate added successfully!');
+}
+
+public function update(Request $request, $id)
+{
+    $candidate = Candidate::findOrFail($id);
+
+    if ($request->hasFile('image')) {
+        // Delete old image if it's not the default
+        if ($candidate->image && $candidate->image !== 'profile.png') {
+            $oldImagePath = public_path('images/' . $candidate->image);
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+        }
+
+        // Save new image
+        $file = $request->file('image');
+        $imageName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images'), $imageName);
+        $request->merge(['image' => $imageName]);
+    }
+
+    $candidate->update($request->all());
+    return redirect()->back()->with('success', 'Candidate updated successfully.');
 }
 
 }
