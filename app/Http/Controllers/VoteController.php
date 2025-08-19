@@ -46,13 +46,6 @@ public function show()
 
         if ($existingVote) {
             return redirect()->route('vote.show')->with('error', 'You have already voted.');
-
-            $user = Auth::user();
-            $studentId = $user->id(); // or however you're identifying the user
-            $hasVoted = Vote::where('user_id', $studentId)->exists();
-
-            return view('vote.show', compact('hasVoted', 'candidates'));
-
         }
         
         
