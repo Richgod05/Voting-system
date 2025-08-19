@@ -49,9 +49,9 @@
             </h2>
             <div id="positionsSubMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body ps-4">
-                    <a href="#"><i class="bi bi-arrow-right-circle"></i> President</a>
-                    <a href="#"><i class="bi bi-arrow-right-circle"></i> Members of Parliament(MPs)</a>
-                    <a href="#"><i class="bi bi-arrow-right-circle"></i> Chairperson of CRs</a>
+                    <a href="{{ route('Admin.president') }}"><i class="bi bi-arrow-right-circle"></i> President</a>
+                    <a href="{{ route('Admin.parliament') }}"><i class="bi bi-arrow-right-circle"></i> Members of Parliament(MPs)</a>
+                    <a href="{{ route('Admin.chairperson') }}"><i class="bi bi-arrow-right-circle"></i> Chairperson of CRs</a>
                 </div>
             </div>
         </div>

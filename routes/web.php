@@ -63,8 +63,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('create_candidate', [DasboardController::class, 'create'])->name('Admin.addcandidate');
         Route::post('store_candidate', [DasboardController::class, 'store'])->name('admin.store_candidate');
         Route::get('results', [AdminController::class, 'adminResults'])->name('admin.results');
-
-
+        Route::get('president_candidate',[DasboardController::class, 'showPresident'])->name('Admin.president');
+        Route::get('parliament_candidate',[DasboardController::class, 'showParliament'])->name('Admin.parliament');
+        Route::get('chairperson_candidate',[DasboardController::class, 'showChairperson'])->name('Admin.chairperson');
 
 
 

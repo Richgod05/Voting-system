@@ -22,6 +22,27 @@ class DasboardController extends Controller
     return view('Admin.qualifiedcandidates', compact('candidates'));
     }
 
+    public function showPresident()
+    {
+    $candidates = Candidate::where('position', 'President')->get();
+    return view('Admin.president', compact('candidates'));
+    }
+
+
+    public function showParliament()
+    {
+    $candidates = Candidate::where('position', 'Member of Parliament (MPs)')->get();
+    return view('Admin.parliament', compact('candidates'));
+    }
+
+        public function showChairperson()
+    {
+    $candidates = Candidate::where('position', 'Chairperson Of Crs')->get();
+    return view('Admin.chairperson', compact('candidates'));
+    }
+
+
+
     public function user()
     {
         $adminUsers = User::where('role', 'admin')->get();
