@@ -30,6 +30,17 @@
                     <textarea name="manifesto" id="manifesto" class="form-control" rows="4" required></textarea>
                 </div>
 
+                {{-- Position Dropdown --}}
+                <div class="mb-4">
+                    <label for="position" class="form-label">Candidate Position</label>
+                    <select name="position" id="position" class="form-select" required>
+                        <option value="" disabled selected>Select Position</option>
+                        <option value="President">President</option>
+                        <option value="Member of Parliament (MPs)">Member of Parliament (MPs)</option>
+                        <option value="Chairperson Of Crs">Chairperson Of Crs</option>
+                    </select>
+                </div>
+
                 <div class="mb-4">
                     <label for="image" class="form-label">Candidate Image</label>
                     <input type="file" name="image" id="image" class="form-control" accept="image/*">

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('programme')->default('no programme provided');
             $table->text('manifesto')->default('No manifesto provided');
             $table->string('status')->default('Disqualified');
+            $table->string('position')->default('No position provided');
             $table->string('image')->default('profile.png'); // path to uploaded image
             $table->timestamps();
         });

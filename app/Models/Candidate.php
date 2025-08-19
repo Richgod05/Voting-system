@@ -16,6 +16,7 @@ class Candidate extends Model
          'manifesto',
          'status',
          'image',
+         'position',
     ];
 
     /**

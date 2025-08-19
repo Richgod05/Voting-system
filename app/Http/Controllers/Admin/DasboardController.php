@@ -41,11 +41,12 @@ public function store(Request $request)
         'level' => 'required|string|min:1',
         'programme' => 'required|string|min:1',
         'manifesto' => 'required|string|min:1',
+        'position' => 'required|in:President,Member of Parliament (MPs),Chairperson Of Crs',
         'status' => 'required|in:Qualified,Disqualified',
         'image' => 'nullable|image|max:2048',
     ]);
 
-    $data = $request->only(['name', 'level', 'programme', 'manifesto', 'status']);
+    $data = $request->only(['name', 'level', 'programme', 'manifesto', 'status', 'image', 'position']);
 
     // Apply fallback defaults if fields are empty or whitespace
     $data['level'] = trim($data['level']) !== '' ? $data['level'] : 'Unknown';
