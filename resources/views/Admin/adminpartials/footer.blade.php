@@ -15,7 +15,7 @@
         </span>
       </div>
       <div class="text-muted small">
-        Built with <i class="bi bi-heart-fill text-danger"></i> By Richgod and David.
+        Built with <i class="bi bi-heart-fill text-danger"></i> By Richgod.
       </div>
     </div>
   </footer>

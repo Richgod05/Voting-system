@@ -14,6 +14,10 @@
     <style>
         body {
             font-family: 'Nunito', sans-serif !important;
+            padding-bottom: 100px; 
+        }
+        .container {
+            margin-bottom: 80px; 
         }
         .candidate-card {
             border: none;
@@ -73,7 +77,7 @@
 @endsection
 
 @section('content')
-<div class="container py-5">
+<div class="container py-5 mb-5">
     <h2 class="mb-4 text-center">Vote for Your Favorite Candidate</h2>
 
     @if (session('error'))
