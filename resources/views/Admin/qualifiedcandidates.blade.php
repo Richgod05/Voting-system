@@ -33,11 +33,13 @@
                         <td>{{ $candidate->manifesto }}</td>
                         <td>{{ $candidate->position ?? 'N/A' }}</td> 
                         <td>
-                            @if($candidate->image)
-                                <img src="{{ asset('storage/' . $candidate->image) }}" alt="Candidate Image" width="60" height="60" class="rounded-circle">
-                            @else
-                                <span class="text-muted">No image</span>
-                            @endif
+                            @php
+                                $imagePath = file_exists(public_path('images/' . $candidate->image))
+                                    ? 'images/' . $candidate->image
+                                    : 'images/profile.png';
+                            @endphp
+                            <img src="{{ asset($imagePath) }}" alt="Candidate Image" width="60" height="60" class="rounded-circle">
+
                         </td>
                         <td>
                             <span class="badge bg-success">Qualified</span>

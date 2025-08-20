@@ -16,8 +16,8 @@
                     <th>Level</th>
                     <th>Programme</th>
                     <th>Manifesto</th>
-                    <th>Position</th> {{-- ✅ New column --}}
-                    <th>Image</th>     {{-- Previously replaced Candidate ID --}}
+                    <th>Position</th>
+                    <th>Image</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -29,13 +29,14 @@
                         <td>{{ $candidate->level }}</td>
                         <td>{{ $candidate->programme }}</td>
                         <td>{{ $candidate->manifesto }}</td>
-                        <td>{{ $candidate->position ?? 'N/A' }}</td> 
+                        <td>{{ $candidate->position ?? 'N/A' }}</td>
                         <td>
-                            @if($candidate->image)
-                                <img src="{{ asset('storage/' . $candidate->image) }}" alt="Candidate Image" width="60" height="60" class="rounded-circle">
-                            @else
-                                <span class="text-muted">No image</span>
-                            @endif
+                            @php
+                                $imagePath = file_exists(public_path('images/' . $candidate->image))
+                                    ? 'images/' . $candidate->image
+                                    : 'images/profile.png';
+                            @endphp
+                            <img src="{{ asset($imagePath) }}" alt="Candidate Image" width="60" height="60" class="rounded-circle">
                         </td>
                         <td>
                             @php
@@ -48,7 +49,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="text-center">No candidates found.</td> 
+                        <td colspan="8" class="text-center">No candidates found.</td>
                     </tr>
                 @endforelse
             </tbody>
