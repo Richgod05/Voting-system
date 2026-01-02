@@ -20,12 +20,16 @@ Route::group(['prefix' => 'vote'], function () {
         Route::post('authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 
         // Password reset routes accessible to guests
-        Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
-             ->name('password.reset.token');
-        Route::get('reset', [ResetPasswordController::class, 'showResetForm'])
-             ->name('password.reset.form');
-        Route::post('send_reset', [ResetPasswordController::class, 'sendResetLink'])
-             ->name('password.sendreset');
+
+                Route::get('reset', [ResetPasswordController::class, 'resetPassword']);
+                Route::post('send_reset', [ResetPasswordController::class, 'sendResetLink'])
+                    ->name('password.sendreset');
+
+                Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+                    ->name('password.reset');
+
+                Route::post('reset-password', [ResetPasswordController::class, 'reset'])
+                    ->name('password.update');
     });
 
     // Authenticated student routes
